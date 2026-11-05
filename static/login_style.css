@@ -1,0 +1,158 @@
+/* DARK defaults — the normal look */
+:root {
+  --dusk: #1C1A2E;
+  --panel: #262340;
+  --moonlight: #E8E6F0;
+  --mist: #A9A4C4;
+  --candle: #E0A86B;
+  --candle-dim: #B98A58;
+}
+
+/* Actually APPLY the variables to the page */
+body {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 10, 0.7)),url("login_background.png");
+  background-color: var(--dusk);
+  color: var(--moonlight);
+  font-family: "Inter", system-ui, sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;      /* centers the form horizontally */
+  padding-top: 3rem;
+}
+
+h1 {
+  font-family: "Comic-Sans-MS", cursive;
+  color: var(--moonlight);
+  margin-bottom: 1rem;
+}
+
+form {
+  background-color: var(--see-through);  /* palette color: surface */
+  padding: 2rem;
+  border-radius: 14px;
+  width: min(90%, 400px);   /* responsive: 90% on small screens, caps at 400px */
+  
+}
+
+label[for="username"],
+label[for="password"] {
+  display: block;           /* puts label on its own line above the input */
+  margin-bottom: 0.3rem;
+  color: var(--mist);
+  font-size: 0.9rem;
+  font-family: "Comic-Sans-MS", cursive;
+}
+
+input[type="text"],
+input[type="password"] {
+  width: 100%;              /* fill the form width */
+  padding: 0.6rem;
+  margin-bottom: 0.5rem;
+  border: 1px solid var(--mist);
+  border-radius: 6px;
+  background-color: var(--dusk);
+  color: var(--candle);
+  font-size: 1rem;
+  font-family: "Comic-Sans-MS", cursive;
+}
+
+button,
+input[type="submit"] {
+  background-color: var(--moonlight);
+  color: var(--dusk);
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;          /* shows the hand cursor on hover */
+  font-weight: 600;
+}
+
+input[type="submit"]:hover,
+button:hover {
+  background-color: var(--candle);
+  color: var(--moonlight);
+}
+
+#signupLink {
+  background-color: var(--moonlight);
+  color: var(--dusk);
+  border: none;
+  padding: 0.4rem 1rem;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  cursor: pointer;          /* shows the hand cursor on hover */
+  font-weight: 490;
+}
+
+#signupLink:hover {
+  background-color: var(--candle);
+  color: var(--moonlight);
+}
+
+body.light-mode label {
+  color: #26233F;
+}
+
+body.light-mode {
+  background-image:
+    linear-gradient(rgba(244, 242, 248, 0.153), rgba(244, 242, 248, 0.164)),
+    url("login_background.png");
+
+  --dusk: #F4F2F8;        /* page bg — soft off-white, faint violet tint */
+  --panel: #FFFFFF;       /* surfaces/boxes — clean white */
+  --moonlight: #26233F;   /* main text — dark (was pale) so it reads on light */
+  --mist: #6B6688;        /* secondary text — muted grey-violet */
+  --candle: #C2873F;      /* accent — slightly deeper amber, reads better on light */
+  --candle-dim: #A66A2E;  /* accent hover */
+}
+
+/* logo + symbol */
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  text-decoration: none;
+  margin-bottom: 5rem;
+  margin-top: -2rem;
+}
+.brand span {
+  font-family: "Fraunces", Georgia, serif;
+  font-size: 2.0rem;
+  font-weight: 600;
+  color: var(--candle);            /* palette color: accent */
+}
+.logo-mark {
+  width: 50px;
+  height: 50px;
+}
+
+/* light/dark mode toggle */
+#themeToggler {
+  background: var(--moonlight);
+  border: 1px solid var(--mist);
+   position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 200;
+  border-radius: 50%;        /* makes it a circle */
+  width: 44px;
+  height: 44px;
+  font-size: 1.2rem;         /* size of the emoji/icon */
+  cursor: pointer;
+  display: flex;
+  align-items: center;       /* centers the icon in the circle */
+  justify-content: center;
+  padding: 0;                /* remove default padding squishing it */
+}
+
+#themeToggler:hover {
+  background: var(--candle);
+  color: var(--moonlight);
+}
+
+.error-msg {
+  color: #e06b6b;      /* soft red */
+  font-size: 0.9rem;
+  margin-bottom: 0.8rem;
+}

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='dashboard_style.css') }}">
+    <title>Dashboard</title>
+    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='favicon.svg') }}">
+  </head>
+  <body>
+    <header class="topbar">
+      <button type="button" id="themeToggler">🌞</button>
+      <div class="wrap topbar-inner">
+            <a class="brand" href="#">
+                <svg class="logo-mark" viewBox="0 0 48 48" aria-label="Showcase logo">
+                    <polygon points="24,8 40,26 8,26" fill="#E0A86B"></polygon>
+                    <polygon points="24,44 40,26 8,26" fill="#E0A86B" opacity="0.3"></polygon>
+                </svg>
+                <span>Myfolio</span>
+            </a>
+        </div>
+    </header>
+
+    <main class="dashboard-card">
+      <h1>Welcome back, <span class="username">{{ username }}</span>!</h1>
+      <p>You're logged in — the session remembered you.</p>
+      <button type="button" id="logoutBtn" onclick="window.location.href='/logout'">Log Out</button>
+    </main>
+
+    <script src="/static/theme.js"></script>
+  </body>
+</html>

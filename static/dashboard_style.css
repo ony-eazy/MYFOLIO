@@ -1,0 +1,125 @@
+/* DARK defaults — same palette as the login page */
+:root {
+  --dusk: #1C1A2E;
+  --panel: #262340;
+  --moonlight: #E8E6F0;
+  --mist: #A9A4C4;
+  --candle: #E0A86B;
+  --candle-dim: #B98A58;
+}
+
+body {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 10, 0.7)), url("home_background.jpg");
+  background-size: cover;
+  background-attachment: fixed;
+  background-color: var(--dusk);
+  color: var(--moonlight);
+  font-family: "Inter", system-ui, sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;      /* centers everything horizontally */
+  padding-top: 3rem;
+  margin: 0;
+  min-height: 100vh;
+}
+
+/* logo + symbol */
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  text-decoration: none;
+  margin-bottom: 4rem;
+  margin-top: -2rem;
+}
+.brand span {
+  font-family: "Fraunces", Georgia, serif;
+  font-size: 2.0rem;
+  font-weight: 600;
+  color: var(--candle);
+}
+.logo-mark {
+  width: 50px;
+  height: 50px;
+}
+
+/* the welcome card */
+.dashboard-card {
+  background-color: var(--panel);
+  padding: 2.5rem 2rem;
+  border-radius: 14px;
+  border-top: 4px solid var(--candle);   /* amber accent strip */
+  width: min(90%, 480px);   /* responsive: 90% on small screens, caps at 480px */
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+}
+
+.dashboard-card h1 {
+  font-family: "Comic-Sans-MS", cursive;
+  color: var(--moonlight);
+  margin: 0 0 0.8rem;
+}
+
+.dashboard-card .username {
+  color: var(--candle);     /* makes the name stand out */
+}
+
+.dashboard-card p {
+  color: var(--mist);
+  margin: 0 0 2rem;
+}
+
+/* log out button */
+#logoutBtn {
+  background-color: var(--moonlight);
+  color: var(--dusk);
+  border: none;
+  padding: 0.6rem 1.4rem;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;          /* shows the hand cursor on hover */
+}
+
+#logoutBtn:hover {
+  background-color: var(--candle);
+  color: var(--moonlight);
+}
+
+/* light/dark mode toggle */
+#themeToggler {
+  background: var(--moonlight);
+  border: 1px solid var(--mist);
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 200;
+  border-radius: 50%;        /* makes it a circle */
+  width: 44px;
+  height: 44px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;       /* centers the icon in the circle */
+  justify-content: center;
+  padding: 0;
+}
+
+#themeToggler:hover {
+  background: var(--candle);
+  color: var(--moonlight);
+}
+
+/* LIGHT mode — toggled by theme.js */
+body.light-mode {
+  background-image:
+    linear-gradient(rgba(244, 242, 248, 0.6), rgba(244, 242, 248, 0.6)),
+    url("home_background.jpg");
+
+  --dusk: #F4F2F8;
+  --panel: #FFFFFF;
+  --moonlight: #26233F;
+  --mist: #6B6688;
+  --candle: #C2873F;
+  --candle-dim: #A66A2E;
+}

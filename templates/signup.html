@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sign Up</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='signup_style.css') }}">
+
+    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='favicon.svg') }}">
+    
+</head>
+<body>
+    <a href="/home" class="back-link">←</a>
+    <header class="topbar">
+           <button type="button" id="themeToggler">🌞</button>
+        <div class="wrap topbar-inner">
+            <a class="brand" href="#">
+                <!-- LOGO SYMBOL: a peak with a faded reflection (inline SVG) -->
+                <svg class="logo-mark" viewBox="0 0 48 48" aria-label="Showcase logo">
+                    <polygon points="24,8 40,26 8,26" fill="#E0A86B"></polygon>
+                    <polygon points="24,44 40,26 8,26" fill="#E0A86B" opacity="0.3"></polygon>
+                </svg>
+            
+                <span>Myfolio</span>
+                
+            </a>
+        </div>  
+    </header>
+    
+    <h1>Sign Up</h1>
+    <form action="/submit_signup" method="post">
+    <label for="username">Username:</label>
+    <input type="text" id="username" name="username" required><br><br>
+
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" required><br><br>
+
+    <!-- Step 1 button: reveals the password. type="button" so it does NOT submit -->
+    <button type="button" id="continueBtn">Continue</button>
+
+    <!-- Step 2: hidden until Continue is clicked -->
+    <div id="passwordSection" style="display: none;">
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required><br><br>
+        <p id="strengthMsg"></p>
+
+        <!-- Step 2a button: reveals confirm section. Lives INSIDE password section -->
+        <button type="button" id="continueBtn2">Continue</button>
+    </div>
+        <!-- Step 3: confirm password + the real submit, hidden until Continue 2 -->
+    <div id="confirmSection" style="display: none;">
+        <label for="confirmPassword">Confirm Password:</label>
+        <input type="password" id="confirmPassword" name="confirmPassword" required><br><br>
+
+        <p id="matchMsg"></p>
+
+        <input id="submitBtn" type="submit" value="Sign Up">   
+    </div>
+    </form>
+<script src="{{ url_for('static', filename='signup.js') }}"></script>
+<script src="{{ url_for('static', filename='theme.js') }}"></script>
+</body>
+</html>

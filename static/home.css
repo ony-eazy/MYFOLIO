@@ -1,0 +1,259 @@
+/* ============================================================
+   About page — external stylesheet  (Mirrors style)
+   ------------------------------------------------------------
+   COLOR PALETTE
+   (theme: a mirror is glass and silver, seen by low light)
+
+   --dusk       #1C1A2E   deep dusk violet   -> page background
+   --panel      #262340   lighter surface    -> boxes / sections
+   --moonlight  #E8E6F0   pale cool white    -> main text
+   --mist       #A9A4C4   muted lavender-grey-> secondary text
+   --candle     #E0A86B   warm amber accent  -> links, rules, logo
+   --candle-dim #B98A58   dimmer amber       -> link hover state
+
+   FONTS
+   Display : "Fraunces"  (warm, characterful serif -> headings)
+   Body    : "Inter"     (quiet sans -> paragraphs, nav)
+   ============================================================ */
+
+:root {
+  --dusk: #1C1A2E;
+  --panel: #262340;
+  --moonlight: #E8E6F0;
+  --mist: #A9A4C4;
+  --candle: #E0A86B;
+  --candle-dim: #B98A58;
+  --see-through: rgba(10, 10, 10, 10);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background-color: var(--dusk);   /* palette color: page background */
+  color: var(--moonlight);         /* palette color: main text       */
+  background-image: linear-gradient(rgba(0, 0, 1, 0.7), rgba(0, 0, 0, 0.7)),url("home_background.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  font-family: "Inter", system-ui, sans-serif;
+  font-size: 18px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ---------- layout ---------- */
+.wrap {
+  width: min(92%, 860px);
+  margin-inline: auto;
+}
+
+section { padding-block: 3.5rem; }
+
+/* ---------- top bar / logo ---------- */
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background-color: var(--see-through);  /* palette color: surface */
+  padding-block: 1.0rem;
+}
+
+.topbar-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.topbar nav a{
+  font-family: "Comic Sans MS", cursive, sans-serif;
+}
+
+.topbar nav a:hover{
+  color: var(--candle-dim);
+}
+
+
+/* brand = logo symbol + site name together */
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  text-decoration: none;
+}
+.brand span {
+  font-family: "Fraunces", Georgia, serif;
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--candle);            /* palette color: accent */
+}
+.logo-mark {
+  width: 28px;
+  height: 28px;
+}
+
+.topbar nav a {
+  color: var(--mist);
+  text-decoration: none;
+  margin-left: 1.5rem;
+  font-size: 0.95rem;
+}
+
+/* ---------- hero + reflected wordmark ---------- */
+.hero {
+  text-align: center;
+  padding-block: 4.5rem 3.5rem;
+}
+
+.wordmark {
+  font-family: "Fraunces", Georgia, serif;
+  font-weight: 600;
+  font-size: clamp(3rem, 12vw, 7rem);
+  line-height: 0.9;
+  color: var(--moonlight);
+}
+
+/* the reflection: a flipped, faded echo of the word */
+.wordmark .echo {
+  display: block;
+  transform: scaleY(-1);
+  color: var(--candle);
+  opacity: 0.28;
+  -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,0.9), transparent 75%);
+          mask-image: linear-gradient(to bottom, rgba(0,0,0,0.9), transparent 75%);
+}
+
+.tagline {
+  margin-top: 1.5rem;
+  color: var(--mist);
+  font-size: 1.1rem;
+}
+
+/* ---------- headings + text ---------- */
+h2 {
+  font-family: "Fraunces", Georgia, serif;
+  font-weight: 500;
+  font-size: 1.9rem;
+  color: var(--moonlight);
+  margin-bottom: 1.2rem;
+}
+
+p {
+  max-width: 66ch;
+  color: var(--moonlight);         /* palette color: main text */
+  margin-bottom: 1.1rem;
+}
+
+.muted #pg1-link { color: var(--mist); padding: 0.25rem 0.5rem; }     /* palette color: secondary text */
+
+a { color: var(--candle); }        /* palette color: accent */
+a:hover { color: var(--candle-dim); }
+
+/* thin accent rule between sections */
+.rule {
+  border: none;
+  height: 1px;
+  background: linear-gradient(to right, var(--candle), transparent);
+  opacity: 0.5;
+}
+
+/* ---------- big logo symbol in the hero ---------- */
+.hero-mark {
+  display: block;
+  width: 56px;
+  height: 56px;
+  margin: 0 auto 1rem;
+}
+
+/* ---------- how it works panel ---------- */
+.panel {
+  background-color: var(--see-through);  /* palette color: surface */
+  border-radius: 14px;
+  padding: 2rem;
+}
+.panel h2 { 
+  font-family: "Comic Sans MS", cursive, sans-serif;
+  margin-bottom: 0.8rem; 
+}
+
+/* Sign in/ Create account */
+#create-account {
+  display: inline-block;
+  background-color: var(--candle);
+  color: var(--dusk);
+  padding: 0.5rem 1rem;
+  text-decoration: none;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
+#create-account:hover {
+  color: var(--moonlight);
+}
+
+#login {
+  display: inline-block;
+  background-color: var(--candle);
+  color: var(--dusk);
+  padding: 0.5rem 1rem;
+  text-decoration: none;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
+#login:hover {
+  color: var(--moonlight);
+}
+.buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+/* ---------- social / footer ---------- */
+footer {
+  padding-block: 3rem 3rem;
+  text-align: center;
+}
+
+.social {
+  list-style: none;
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
+  margin-top: 1rem;
+}
+.social a {
+  color: var(--mist);
+  text-decoration: none;
+  font-size: 0.95rem;
+}
+
+.social a:hover { color: var(--candle); }
+
+.copyright {
+  justify-content: center;
+  text-align: center;
+  margin-top: 2rem;
+  color: var(--mist);
+  font-size: 0.85rem;
+}
+
+/* ---------- one gentle load reveal (respects reduced motion) ---------- */
+.hero, section { animation: rise 0.7s ease both; }
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero, section { animation: none; }
+  html { scroll-behavior: auto; }
+}
