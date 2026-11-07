@@ -22,8 +22,14 @@
     </header>
 
     <main class="dashboard-card">
-      <h1>Welcome back, <span class="username">{{ username }}</span>!</h1>
-      <p>You're logged in — the session remembered you.</p>
+      {% if new_user %}
+        <h1>Account created!! This is your dashboard, <span class="username">{{ username }}</span></h1>
+        <p>Start by filling in your profile so visitors know who you are.</p>
+      {% else %}
+        <h1>Welcome back, <span class="username">{{ username }}</span>!</h1>
+        <p>You're logged in — the session remembered you.</p>
+      {% endif %}
+      <button type="button" id="profileBtn" onclick="window.location.href='/profile'">My Profile</button>
       <button type="button" id="logoutBtn" onclick="window.location.href='/logout'">Log Out</button>
     </main>
 

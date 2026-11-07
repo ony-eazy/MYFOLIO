@@ -37,10 +37,15 @@ def submit_signup():
     cursor.execute(sql, (username, email, hashed_password))
 
     conn.commit()
+    new_user_id = cursor.lastrowid   # the User_id MySQL just gave this account
     cursor.close()
     conn.close()
 
-    return "Account created! You can close this page."
+    # log the new user straight in, and mark them as brand new
+    session["user_id"] = new_user_id
+    session["username"] = username
+    session["new_user"] = True
+    return redirect(url_for("dashboard"))
 
 
 # shows the login page AND handles the login submit
@@ -81,7 +86,35 @@ def dashboard():
     if "user_id" not in session:
         flash("Please log in first.")
         return redirect(url_for("login"))
-    return render_template("dashboard.html", username=session["username"])
+    # stays True until logout clears the session, so refreshing keeps the "new account" greeting
+    new_user = session.get("new_user", False)
+    return render_template("dashboard.html", username=session["username"], new_user=new_user)
+
+
+# shows the logged-in user's profile
+@app.route("/profile")
+def profile():
+    # 1. guard: only logged-in users
+    if "user_id" not in session:
+        flash("Please log in first.")
+        return redirect(url_for("login"))
+
+    # 2. look up this user's full row in the database
+    conn = mysql.connector.connect(
+        host="localhost",
+        user="root",
+        password=os.getenv("DB_PASSWORD"),
+        database="mydb"
+    )
+    cursor = conn.cursor(dictionary=True)
+    cursor.execute("SELECT * FROM users WHERE User_id = %s", (session["user_id"],))
+    user = cursor.fetchone()
+    cursor.close()
+    conn.close()
+
+    # 3. hand the whole row to the template
+    return render_template("profile.html", user=user)
+
 
 
 # clears the session and sends you back to login

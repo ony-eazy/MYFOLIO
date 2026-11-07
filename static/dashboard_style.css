@@ -69,21 +69,44 @@ body {
   margin: 0 0 2rem;
 }
 
-/* log out button */
-#logoutBtn {
-  background-color: var(--moonlight);
+/* profile button — the main action, big and bright */
+#profileBtn {
+  display: block;           /* own line, so log out sits underneath */
+  margin: 0 auto 1rem;      /* centered, with space below */
+  background-color: var(--candle);
   color: var(--dusk);
   border: none;
-  padding: 0.6rem 1.4rem;
+  padding: 0.85rem 2.4rem;
+  border-radius: 8px;
+  font-size: 1.15rem;
+  font-weight: 700;
+  cursor: pointer;          /* shows the hand cursor on hover */
+  box-shadow: 0 4px 14px rgba(224, 168, 107, 0.4);   /* amber glow */
+  transition: transform 0.15s, background-color 0.15s;
+}
+
+#profileBtn:hover {
+  background-color: var(--candle-dim);
+  transform: translateY(-2px);   /* lifts slightly on hover */
+}
+
+/* log out button — smaller and quieter */
+#logoutBtn {
+  display: block;
+  margin: 0 auto;           /* centered under the profile button */
+  background-color: transparent;
+  color: var(--mist);
+  border: 1px solid var(--mist);
+  padding: 0.35rem 1rem;
   border-radius: 6px;
-  font-size: 1rem;
-  font-weight: 600;
+  font-size: 0.8rem;
+  font-weight: 500;
   cursor: pointer;          /* shows the hand cursor on hover */
 }
 
 #logoutBtn:hover {
-  background-color: var(--candle);
   color: var(--moonlight);
+  border-color: var(--moonlight);
 }
 
 /* light/dark mode toggle */

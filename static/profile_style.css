@@ -1,0 +1,106 @@
+/* the profile card — same look as the dashboard card, a bit wider for the form */
+.profile-card {
+  background-color: var(--panel);
+  padding: 2.5rem 2rem;
+  border-radius: 14px;
+  border-top: 4px solid var(--candle);   /* amber accent strip */
+  width: min(90%, 560px);   /* responsive: 90% on small screens, caps at 560px */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  margin-bottom: 3rem;
+}
+
+.profile-card h1 {
+  font-family: "Comic-Sans-MS", cursive;
+  color: var(--moonlight);
+  text-align: center;
+  margin: 0 0 1.5rem;
+}
+
+/* labels sit on their own line above each box */
+.profile-card label {
+  display: block;
+  margin-bottom: 0.3rem;
+  color: var(--mist);
+  font-size: 0.9rem;
+}
+
+/* all text boxes + the bio area */
+.profile-card input,
+.profile-card textarea {
+  width: 100%;
+  box-sizing: border-box;   /* padding stays inside the 100% width */
+  padding: 0.6rem;
+  margin-bottom: 1.1rem;
+  border: 1px solid var(--mist);
+  border-radius: 6px;
+  background-color: var(--dusk);
+  color: var(--moonlight);
+  font-size: 1rem;
+  font-family: inherit;     /* textarea uses the page font, not monospace */
+}
+
+.profile-card textarea {
+  resize: vertical;         /* can be made taller, not wider */
+}
+
+/* amber outline when you click into a box */
+.profile-card input:focus,
+.profile-card textarea:focus {
+  outline: none;
+  border-color: var(--candle);
+  box-shadow: 0 0 0 3px rgba(224, 168, 107, 0.25);
+}
+
+/* locked fields (username, email) look faded */
+.profile-card input:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+/* save button — the main action, same style as My Profile on the dashboard */
+#saveBtn {
+  display: block;
+  width: 100%;
+  margin-top: 0.5rem;
+  background-color: var(--candle);
+  color: var(--dusk);
+  border: none;
+  padding: 0.85rem;
+  border-radius: 8px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(224, 168, 107, 0.4);
+  transition: transform 0.15s, background-color 0.15s;
+}
+
+#saveBtn:hover {
+  background-color: var(--candle-dim);
+  transform: translateY(-2px);   /* lifts slightly on hover */
+}
+
+/* publish button — important, but second to save: amber outline instead of solid */
+#publishBtn {
+  display: block;
+  width: 100%;
+  margin-top: 0.8rem;
+  background-color: transparent;
+  color: var(--candle);
+  border: 2px solid var(--candle);
+  padding: 0.75rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.15s, color 0.15s;
+}
+
+#publishBtn:hover {
+  background-color: var(--candle);
+  color: var(--dusk);            /* fills in on hover */
+}
+
+/* log out — overrides the dashboard version: spacing to sit below publish */
+.profile-card #logoutBtn {
+  margin-top: 1.5rem;
+}
