@@ -57,6 +57,17 @@
   cursor: not-allowed;
 }
 
+/* small headings that split the form into sections */
+.form-section-title {
+  font-family: "Comic-Sans-MS", cursive;
+  font-size: 1.05rem;
+  color: var(--candle);
+  margin: 1.5rem 0 1rem;
+  padding-top: 1.2rem;
+  border-top: 1px solid rgba(169, 164, 196, 0.25);   /* faint divider line */
+}
+
+
 /* save button — the main action, same style as My Profile on the dashboard */
 #saveBtn {
   display: block;
@@ -100,7 +111,61 @@
   color: var(--dusk);            /* fills in on hover */
 }
 
-/* log out — overrides the dashboard version: spacing to sit below publish */
-.profile-card #logoutBtn {
-  margin-top: 1.5rem;
+/* "(optional)" next to a label */
+.optional {
+  font-size: 0.8rem;
+  opacity: 0.7;
 }
+
+/* message after saving */
+.flash {
+  padding: 0.7rem 1rem;
+  border-radius: 8px;
+  margin: 0 0 1.2rem;
+  font-size: 0.95rem;
+  text-align: center;
+}
+
+.flash.success {
+  background-color: rgba(224, 168, 107, 0.15);   /* soft amber */
+  border: 1px solid var(--candle);
+  color: var(--candle);
+}
+
+.flash.error {
+  background-color: rgba(224, 107, 107, 0.15);   /* soft red */
+  border: 1px solid #e06b6b;
+  color: #e06b6b;
+}
+
+/* language checkboxes — a grid of tickable options */
+.lang-checkboxes {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));   /* 2 per row on phones, 3–4 on laptops */
+  gap: 0.5rem;
+  margin-bottom: 1.1rem;
+}
+
+.lang-option {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0.45rem 0.6rem;
+  border: 1px solid rgba(169, 164, 196, 0.35);
+  border-radius: 6px;
+  color: var(--moonlight);
+  cursor: pointer;
+}
+
+.lang-option:hover {
+  border-color: var(--candle);
+}
+
+/* undo the full-width text-box style for checkboxes */
+.profile-card .lang-checkboxes input[type="checkbox"] {
+  width: auto;
+  margin: 0;
+  accent-color: var(--candle);   /* amber tick */
+}
+

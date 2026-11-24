@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projects</title>
+    <link rel="icon" type="image/svg+xml" href="{{url_for('static', filename='favicon.svg')}}">
+        <!-- dashboard_style.css = shared palette/topbar, projects_style.css = this page -->
+    <link rel="stylesheet" href="{{url_for('static', filename='dashboard_style.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='projects_style.css')}}">
+</head>
+<body>
+  {% include '_topbar.html' %}
+
+  <main class="projects-page">
+    <!-- heading + add button -->
+    <div class="projects-header">
+            <h1>{{ labels[lang] ~ " projects" if lang else "My Projects" }}</h1>
+
+      <a href="/projects/new" id="addProjectBtn">+ Add project</a>
+    </div>
+
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% for category, msg in messages %}
+          <p class="flash {{ category }}">{{ msg }}</p>
+        {% endfor %}
+      {% endwith %}
+
+      <!-- filter chips: same choices as the nav dropdown, handy on phones -->
+      <div class="filter-chips">
+        <a href="/projects" class ="chip {{ 'active' if not lang }}">All</a>
+        {% for slug, label in languages %}
+          <a href="/projects?lang={{ slug }}" class="chip {{ 'active' if lang == slug }}">{{ label }}</a>
+        {% endfor %}
+                <a href="/projects?lang=other" class="chip {{ 'active' if lang == 'other' }}">Other</a>
+      </div>
+
+      {% if projects %}
+        <!-- one card per project -->
+        <div class="project-grid">
+          {% for project in projects %}
+            <article class="project-card">
+              {% if project.Image_url %}
+                <img src="{{ project.Image_url }}" alt="{{ project.Title }}">
+              {% endif %}
+
+              <div class="project-body">
+                                <!-- one badge per language; "No language" if none are set -->
+                <div class="lang-badges">
+                  {% for slug in langs_by_project.get(project.Project_id, []) %}
+                    <span class="lang-badge">{{ labels.get(slug, slug|capitalize) }}</span>
+                  {% else %}
+                    <span class="lang-badge muted">No language</span>
+                  {% endfor %}
+                </div>
+                <h2>{{ project.Title or "Untitled project" }}</h2>
+                <p>{{ (project.Description or "No description yet.")|truncate(140) }}</p>
+
+                <div class="project-links">
+                  {% if project.Github_url %}
+                    <a href="{{ project.Github_url }}" target="_blank">GitHub</a>
+                  {% endif %}
+                  {% if project.Project_link %}
+                    <a href="{{ project.Project_link }}" target="_blank">Live site</a>
+                  {% endif %}
+                </div>
+                </div>
+            </article>
+          {% endfor %}
+        </div>
+      {% else %}
+        <!-- nothing to show -->
+        <div class="empty-state">
+          <p>{{ "No " ~ labels[lang] ~ " projects yet." if lang else "You haven't added any projects yet." }}</p>
+          <a href="/projects/new" id="addProjectBtnEmpty">+ Add your first project</a>
+        </div>
+      {% endif %}
+
+  </main>
+
+  <script src="/static/theme.js"></script>
+  </body>
+</html>

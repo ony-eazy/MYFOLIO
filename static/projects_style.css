@@ -1,0 +1,181 @@
+/* the page area — wider than the dashboard card so cards fit side by side */
+.projects-page {
+  width: min(92%, 1100px);
+  margin-bottom: 3rem;
+}
+
+/* heading on the left, add button on the right */
+.projects-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;           /* stacks on narrow screens */
+  gap: 1rem;
+  margin-bottom: 1.2rem;
+}
+
+.projects-header h1 {
+  font-family: "Comic-Sans-MS", cursive;
+  color: var(--moonlight);
+  margin: 0;
+}
+
+#addProjectBtn,
+#addProjectBtnEmpty {
+  background-color: var(--candle);
+  color: var(--dusk);
+  text-decoration: none;
+  padding: 0.65rem 1.3rem;
+  border-radius: 8px;
+  font-weight: 700;
+  box-shadow: 0 4px 14px rgba(224, 168, 107, 0.4);
+  transition: transform 0.15s, background-color 0.15s;
+}
+
+#addProjectBtn:hover,
+#addProjectBtnEmpty:hover {
+  background-color: var(--candle-dim);
+  transform: translateY(-2px);
+}
+
+/* ---------- filter chips ---------- */
+.filter-chips {
+  display: flex;
+  flex-wrap: wrap;           /* chips flow onto new lines */
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+}
+
+.chip {
+  color: var(--mist);
+  text-decoration: none;
+  border: 1px solid var(--mist);
+  border-radius: 999px;      /* pill shape */
+  padding: 0.3rem 0.9rem;
+  font-size: 0.85rem;
+}
+
+.chip:hover {
+  color: var(--candle);
+  border-color: var(--candle);
+}
+
+.chip.active {
+  background-color: var(--candle);
+  border-color: var(--candle);
+  color: var(--dusk);
+  font-weight: 600;
+}
+
+/* ---------- project cards ---------- */
+.project-grid {
+  display: grid;
+  /* as many 260px+ columns as fit; 1 on phones, 3–4 on laptops */
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1.5rem;
+}
+
+.project-card {
+  background-color: var(--panel);
+  border-radius: 14px;
+  border-top: 4px solid var(--candle);
+  overflow: hidden;          /* image keeps the rounded corners */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.15s;
+}
+
+.project-card:hover {
+  transform: translateY(-4px);   /* lifts on hover */
+}
+
+.project-card img {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;         /* fills the space without stretching */
+}
+
+.project-body {
+  padding: 1.2rem;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;              /* links sit at the bottom even if text is short */
+}
+
+/* a row of language badges that wraps onto new lines */
+.lang-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-bottom: 0.7rem;
+}
+
+.lang-badge {
+  background-color: var(--dusk);
+  color: var(--candle);
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+}
+
+/* "No language" looks quieter than real languages */
+.lang-badge.muted {
+  color: var(--mist);
+}
+
+
+.project-body h2 {
+  font-size: 1.15rem;
+  color: var(--moonlight);
+  margin: 0 0 0.5rem;
+}
+
+.project-body p {
+  color: var(--mist);
+  font-size: 0.92rem;
+  line-height: 1.5;
+  margin: 0 0 1rem;
+  flex-grow: 1;
+}
+
+.project-links {
+  display: flex;
+  gap: 1rem;
+}
+
+.project-links a {
+  color: var(--candle);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.project-links a:hover {
+  text-decoration: underline;
+}
+
+/* ---------- no projects yet ---------- */
+.empty-state {
+  background-color: var(--panel);
+  border-radius: 14px;
+  padding: 3rem 1.5rem;
+  text-align: center;
+}
+
+.empty-state p {
+  color: var(--mist);
+  margin: 0 0 1.5rem;
+}
+
+/* "Project added!" after saving */
+.flash.success {
+  background-color: rgba(224, 168, 107, 0.15);
+  border: 1px solid var(--candle);
+  color: var(--candle);
+  padding: 0.7rem 1rem;
+  border-radius: 8px;
+  margin: 0 0 1.2rem;
+  text-align: center;
+}

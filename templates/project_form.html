@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Add Project</title>
+        <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='favicon.svg') }}">
+        <!-- shared palette/topbar + the profile form styles (same look) -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='dashboard_style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='profile_style.css') }}">
+  </head>
+
+  <body>
+    {% include '_topbar.html' %}
+
+    <main class="profile-card"> 
+      <h1>Add Project</h1>
+
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% for category, msg in messages %}
+          <p class="flash {{ category }}">{{ msg }}</p>
+        {% endfor %}
+      {% endwith %}
+
+      <form action="/projects/new" method="post">
+        <!-- the basics -->
+        <label for="title">Title</label>
+        <input type="text" name="title" id="title" maxlength="150" required value="{{ form.get('title','' )}}" placeholder="e.g Myfolio" />
+
+        <label for="github_url">GitHub repository <span class="optional">(optional)</span></label>
+        <input type="text" inputmode="url" name="github_url" id="github_url" maxlength="255" value="{{ form.get('github_url','' )}}" placeholder="github.com/your-username/your-repo" />
+
+         <label for="project_link">Live site <span class="optional">(optional)</span></label>
+        <input type="text" inputmode="url" id="project_link" name="project_link" maxlength="255"
+               value="{{ form.get('project_link', '') }}" placeholder="your-project.netlify.app">
+
+        <label for="description">Short description <span class="optional">(optional)</span></label>
+        <textarea id="description" name="description" rows="3" maxlength="1000"
+                  placeholder="One or two sentences shown on the project card">{{ form.get('description', '') }}</textarea>
+        <!-- languages -->
+        <h2 class="form-section-title">Languages used</h2>
+        <div class="lang-checkboxes">
+          {% for slug, label in languages %}
+            <label class="lang-option">
+              <input type="checkbox" name="languages" value="{{ slug }}"
+                     {{ 'checked' if slug in selected }}>
+              {{ label }}
+            </label>
+          {% endfor %}
+        </div>
+
+        <label for="other_languages">Other languages <span class="optional">(comma separated)</span></label>
+        <input type="text" id="other_languages" name="other_languages" maxlength="255"
+               value="{{ form.get('other_languages', '') }}" placeholder="e.g. Ruby, Dart">
+
+        <!-- the case study -->
+        <h2 class="form-section-title">The story <span class="optional">(all optional)</span></h2>
+
+        <label for="problem">The problem</label>
+        <textarea id="problem" name="problem" rows="4"
+                  placeholder="What problem were you solving?">{{ form.get('problem', '') }}</textarea>
+
+        <label for="process">The process</label>
+        <textarea id="process" name="process" rows="4"
+                  placeholder="How did you build it? What decisions did you make?">{{ form.get('process', '') }}</textarea>
+
+        <label for="tools">Tools</label>
+        <input type="text" id="tools" name="tools" maxlength="255"
+               value="{{ form.get('tools', '') }}" placeholder="e.g. Flask, MySQL, Figma, VS Code">
+        
+        <label for="results">Results</label>
+        <textarea id="results" name="results" rows="3"
+                  placeholder="What was the outcome? Any numbers or feedback?">{{ form.get('results', '') }}</textarea>
+
+        <button type="submit" id="saveBtn">Save project</button>
+
+      </form>
+    </main>
+
+        <script src="/static/theme.js"></script>
+
+  </body>
+</html>

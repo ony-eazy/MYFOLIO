@@ -18,9 +18,65 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;      /* centers everything horizontally */
-  padding-top: 3rem;
   margin: 0;
   min-height: 100vh;
+}
+
+/* ---------- top bar: logo on the left, nav on the right ---------- */
+.topbar {
+  position: sticky;          /* stays at the top while you scroll */
+  top: 0;
+  z-index: 100;
+  width: 100%;
+  background-color: rgba(28, 26, 46, 0.85);   /* see-through dusk */
+  backdrop-filter: blur(6px);
+  margin-bottom: 4rem;       /* space between the bar and the card */
+}
+
+.topbar-inner {
+  width: min(92%, 1100px);
+  margin-inline: auto;
+  padding-block: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.topbar nav {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.topbar nav a {
+  color: var(--mist);
+  text-decoration: none;
+  font-family: "Comic Sans MS", cursive, sans-serif;
+  font-size: 0.95rem;
+}
+
+.topbar nav a:hover {
+  color: var(--candle-dim);
+}
+
+/* the page you're on is highlighted in amber */
+.topbar nav a.active {
+  color: var(--candle);
+  border-bottom: 2px solid var(--candle);
+  padding-bottom: 2px;
+}
+
+/* log out looks like a small outlined button, set apart from the links */
+#navLogout {
+  border: 1px solid var(--mist);
+  border-radius: 6px;
+  padding: 0.3rem 0.8rem;
+  font-size: 0.85rem;
+}
+
+#navLogout:hover {
+  color: var(--moonlight);
+  border-color: var(--moonlight);
 }
 
 /* logo + symbol */
@@ -29,8 +85,6 @@ body {
   align-items: center;
   gap: 0.6rem;
   text-decoration: none;
-  margin-bottom: 4rem;
-  margin-top: -2rem;
 }
 .brand span {
   font-family: "Fraunces", Georgia, serif;
@@ -69,54 +123,119 @@ body {
   margin: 0 0 2rem;
 }
 
-/* profile button — the main action, big and bright */
-#profileBtn {
-  display: block;           /* own line, so log out sits underneath */
-  margin: 0 auto 1rem;      /* centered, with space below */
-  background-color: var(--candle);
-  color: var(--dusk);
-  border: none;
-  padding: 0.85rem 2.4rem;
-  border-radius: 8px;
-  font-size: 1.15rem;
-  font-weight: 700;
-  cursor: pointer;          /* shows the hand cursor on hover */
-  box-shadow: 0 4px 14px rgba(224, 168, 107, 0.4);   /* amber glow */
-  transition: transform 0.15s, background-color 0.15s;
+/* ---------- portfolio progress ---------- */
+.progress-box {
+  text-align: left;
+  border-top: 1px solid rgba(169, 164, 196, 0.25);   /* faint divider under the greeting */
+  padding-top: 1.5rem;
 }
 
-#profileBtn:hover {
-  background-color: var(--candle-dim);
-  transform: translateY(-2px);   /* lifts slightly on hover */
+.progress-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
 }
 
-/* log out button — smaller and quieter */
-#logoutBtn {
-  display: block;
-  margin: 0 auto;           /* centered under the profile button */
-  background-color: transparent;
-  color: var(--mist);
-  border: 1px solid var(--mist);
-  padding: 0.35rem 1rem;
-  border-radius: 6px;
-  font-size: 0.8rem;
-  font-weight: 500;
-  cursor: pointer;          /* shows the hand cursor on hover */
-}
-
-#logoutBtn:hover {
+.progress-header h2 {
+  font-family: "Comic-Sans-MS", cursive;
+  font-size: 1.1rem;
   color: var(--moonlight);
-  border-color: var(--moonlight);
+  margin: 0;
 }
 
-/* light/dark mode toggle */
+.progress-percent {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--candle);
+}
+
+/* grey track + amber fill */
+.progress-bar {
+  height: 10px;
+  background-color: var(--dusk);
+  border-radius: 999px;      /* fully rounded ends */
+  margin: 0.8rem 0 0.4rem;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background-color: var(--candle);
+  border-radius: 999px;
+  transition: width 0.6s ease;
+}
+
+.dashboard-card .progress-count {
+  font-size: 0.85rem;
+  margin: 0 0 1.2rem;
+}
+
+.dashboard-card .progress-complete {
+  color: var(--candle);
+  font-weight: 600;
+  margin: 0 0 1rem;
+}
+
+/* the checklist */
+.checklist {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.checklist li {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.55rem 0;
+  color: var(--moonlight);
+}
+
+/* the circle in front of each step */
+.checklist .check {
+  flex-shrink: 0;
+  width: 22px;
+  height: 22px;
+  border: 2px solid var(--mist);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+/* finished steps: filled amber circle, faded crossed-out text */
+.checklist li.done {
+  color: var(--mist);
+  text-decoration: line-through;
+}
+
+.checklist li.done .check {
+  background-color: var(--candle);
+  border-color: var(--candle);
+  color: var(--dusk);
+}
+
+/* unfinished steps link to where you do them */
+.checklist a {
+  color: var(--moonlight);
+  text-decoration: none;
+}
+
+.checklist a:hover {
+  color: var(--candle);
+}
+
+.checklist a::after {
+  content: " →";
+  color: var(--candle);
+}
+
+/* light/dark mode toggle — now sits at the end of the nav */
 #themeToggler {
   background: var(--moonlight);
   border: 1px solid var(--mist);
-  position: fixed;
-  top: 1rem;
-  right: 1rem;
-  z-index: 200;
   border-radius: 50%;        /* makes it a circle */
   width: 44px;
   height: 44px;
@@ -145,4 +264,74 @@ body.light-mode {
   --mist: #6B6688;
   --candle: #C2873F;
   --candle-dim: #A66A2E;
+}
+
+body.light-mode .topbar {
+  background-color: rgba(244, 242, 248, 0.85);   /* see-through off-white */
+}
+
+/* ---------- phones: hide the links behind a ☰ button ---------- */
+#menuToggle {
+  display: none;             /* hidden on big screens */
+  background: none;
+  border: 1px solid var(--mist);
+  border-radius: 6px;
+  color: var(--moonlight);
+  font-size: 1.4rem;
+  width: 44px;
+  height: 44px;
+  cursor: pointer;
+}
+
+@media (max-width: 860px) {
+  .topbar-inner {
+    position: relative;      /* the dropdown is placed under the bar */
+  }
+
+  #menuToggle {
+    display: block;
+  }
+
+  /* the nav becomes a dropdown panel, hidden until ☰ is tapped */
+  .topbar nav {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    width: min(100%, 280px);
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    background-color: var(--panel);
+    border-radius: 0 0 12px 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
+    padding: 0.5rem 0;
+  }
+
+  .topbar nav.open {
+    display: flex;
+  }
+
+  /* each link becomes a full-width row that's easy to tap */
+  .topbar nav a {
+    padding: 0.85rem 1.25rem;
+  }
+
+  .topbar nav a.active {
+    border-bottom: none;
+    border-left: 3px solid var(--candle);   /* side bar instead of underline */
+  }
+
+  #navLogout {
+    margin: 0.5rem 1.25rem;
+    text-align: center;
+  }
+
+  #themeToggler {
+    margin: 0.5rem auto;
+  }
+
+  .brand span {
+    font-size: 1.6rem;       /* slightly smaller logo text on phones */
+  }
 }

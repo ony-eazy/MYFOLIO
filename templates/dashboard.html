@@ -8,18 +8,7 @@
     <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='favicon.svg') }}">
   </head>
   <body>
-    <header class="topbar">
-      <button type="button" id="themeToggler">🌞</button>
-      <div class="wrap topbar-inner">
-            <a class="brand" href="#">
-                <svg class="logo-mark" viewBox="0 0 48 48" aria-label="Showcase logo">
-                    <polygon points="24,8 40,26 8,26" fill="#E0A86B"></polygon>
-                    <polygon points="24,44 40,26 8,26" fill="#E0A86B" opacity="0.3"></polygon>
-                </svg>
-                <span>Myfolio</span>
-            </a>
-        </div>
-    </header>
+    {% include "_topbar.html" %}
 
     <main class="dashboard-card">
       {% if new_user %}
@@ -29,8 +18,37 @@
         <h1>Welcome back, <span class="username">{{ username }}</span>!</h1>
         <p>You're logged in — the session remembered you.</p>
       {% endif %}
-      <button type="button" id="profileBtn" onclick="window.location.href='/profile'">My Profile</button>
-      <button type="button" id="logoutBtn" onclick="window.location.href='/logout'">Log Out</button>
+
+      <!-- profile completion -->
+      <section class="progress-box">
+        <div class="progress-header">
+          <h2>Portfolio progress</h2>
+          <span class="progress-percent">{{ percent }}%</span>
+        </div>
+
+        <!-- the bar: the inner div's width is the percentage -->
+        <div class="progress-bar">
+          <div class="progress-fill" style="width: {{ percent }}%"></div>
+        </div>
+        <p class="progress-count">{{ done }} of {{ steps|length }} steps done</p>
+
+        {% if percent == 100 %}
+          <p class="progress-complete">🎉 Your portfolio is complete — time to publish it!</p>
+        {% endif %}
+
+        <ul class="checklist">
+          {% for label, is_done, link in steps %}
+            <li class="{{ 'done' if is_done }}">
+              {% if is_done %}
+                <span class="check">✓</span> {{ label }}
+              {% else %}
+                <span class="check"></span>
+                <a href="{{ link }}">{{ label }}</a>
+              {% endif %}
+            </li>
+          {% endfor %}
+        </ul>
+      </section>
     </main>
 
     <script src="/static/theme.js"></script>

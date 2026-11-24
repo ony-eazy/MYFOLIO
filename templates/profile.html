@@ -12,21 +12,18 @@
   </head>
 
   <body>
-        <header class="topbar">
-      <button type="button" id="themeToggler">🌞</button>
-      <div class="wrap topbar-inner">
-            <a class="brand" href="/dashboard">
-                <svg class="logo-mark" viewBox="0 0 48 48" aria-label="Showcase logo">
-                    <polygon points="24,8 40,26 8,26" fill="#E0A86B"></polygon>
-                    <polygon points="24,44 40,26 8,26" fill="#E0A86B" opacity="0.3"></polygon>
-                </svg>
-                <span>Myfolio</span>
-            </a>
-        </div>
-    </header>
+    {% include "_topbar.html" %}
 
     <main class="profile-card">
       <h1>My Profile</h1>
+
+      <!-- "Profile updated!" or an error, after clicking Save -->
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% for category, msg in messages %}
+          <p class="flash {{ category }}">{{ msg }}</p>
+        {% endfor %}
+      {% endwith %}
+
 
       <form action="/profile" method="post">
 
@@ -49,19 +46,39 @@
 
         <label for="bio">Bio</label>
         <textarea id="bio" name="bio" rows="5"
+        maxlength="1000"
                   placeholder="Tell visitors a little about yourself">{{ user.Bio or '' }}</textarea>
 
         <label for="skills">Skills</label>
         <input type="text" id="skills" name="skills"
                value="{{ user.Skills or '' }}" maxlength="255"
                placeholder="e.g. HTML, CSS, Python, Figma">
+                       <!-- social links -->
+        <h2 class="form-section-title">Social links</h2>
+
+        <label for="github_url">GitHub <span class="optional">(optional)</span></label>
+        <input type="text" inputmode="url" id="github_url" name="github_url"
+               value="{{ user.Github_url or '' }}" maxlength="255"
+               placeholder="github.com/your-username">
+
+        <label for="linkedin_url">LinkedIn <span class="optional">(optional)</span></label>
+        <input type="text" inputmode="url" id="linkedin_url" name="linkedin_url"
+               value="{{ user.Linkedin_url or '' }}" maxlength="255"
+               placeholder="linkedin.com/in/your-name">
+
+        <label for="discord_username">Discord username <span class="optional">(optional)</span></label>
+        <input type="text" id="discord_username" name="discord_username"
+               value="{{ user.Discord_username or '' }}" maxlength="32"
+               pattern="@?[A-Za-z0-9_.]{2,32}"
+               title="2–32 characters: letters, numbers, _ and ."
+               placeholder="your_username">
+
 
         <button type="submit" id="saveBtn">Save changes</button>
       </form>
 
-      <!-- outside the form, so clicking these never submits it -->
+      <!-- outside the form, so clicking it never submits it -->
       <button type="button" id="publishBtn">Publish profile</button>
-      <button type="button" id="logoutBtn" onclick="window.location.href='/logout'">Log Out</button>
     </main>
         <script src="/static/theme.js"></script>
   </body>
