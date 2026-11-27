@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Delete account</title>
+  <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='favicon.svg') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='dashboard_style.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='profile_style.css') }}">
+</head>
+<body>
+  {% include '_topbar.html' %}
+
+  <main class="profile-card">
+    <h1>Delete account</h1>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% for category, msg in messages %}
+        <p class="flash {{ category }}">{{ msg }}</p>
+      {% endfor %}
+    {% endwith %}
+
+    <p class="danger-text">This permanently deletes:</p>
+    <ul class="danger-list">
+      <li>your profile and login</li>
+      <li>all your projects</li>
+      <li>all your testimonials and request links</li>
+    </ul>
+    <p class="danger-text"><strong>This cannot be undone.</strong></p>
+
+    <form action="/account/delete" method="post">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+      <label for="password">Enter your password to confirm</label>
+      <input type="password" id="password" name="password" required autocomplete="current-password">
+
+      <label class="confirm-check">
+        <input type="checkbox" required>
+        I understand my account can't be recovered
+      </label>
+
+      <button type="submit" id="deleteAccountBtn">Delete my account forever</button>
+      <a href="/profile" class="cancel-link">Cancel</a>
+    </form>
+  </main>
+
+  <script src="/static/theme.js"></script>
+</body>
+</html>

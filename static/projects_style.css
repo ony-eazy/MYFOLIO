@@ -179,3 +179,20 @@
   margin: 0 0 1.2rem;
   text-align: center;
 }
+
+/* edit button — right-hand side of the card's link row */
+.project-links .edit-link {
+  margin-left: auto;          /* pushes it to the far right */
+  color: var(--mist);
+  border: 1px solid var(--mist);
+  border-radius: 6px;
+  padding: 0.15rem 0.6rem;
+  font-weight: 500;
+}
+
+.project-links .edit-link:hover {
+  color: var(--candle);
+  border-color: var(--candle);
+  text-decoration: none;
+}
+

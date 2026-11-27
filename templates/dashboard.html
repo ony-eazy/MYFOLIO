@@ -11,6 +11,11 @@
     {% include "_topbar.html" %}
 
     <main class="dashboard-card">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+        {% for category, msg in messages %}
+          <p class="flash {{ category }}">{{ msg }}</p>
+        {% endfor %}
+      {% endwith %}
       {% if new_user %}
         <h1>Account created!! This is your dashboard, <span class="username">{{ username }}</span></h1>
         <p>Start by filling in your profile so visitors know who you are.</p>

@@ -1,0 +1,6 @@
+{
+  // VS Code's CSS checker doesn't understand Jinja ({{ }}) inside style="...",
+  // so it flagged style="width: {{ percent }}%" in dashboard.html as an error.
+  // All real CSS lives in static/*.css, which is still checked.
+  "html.validate.styles": false
+}

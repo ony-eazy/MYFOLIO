@@ -26,6 +26,7 @@
 
 
       <form action="/profile" method="post">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 
         <!-- locked: shown for reference only -->
         <label for="username">Username</label>
@@ -79,6 +80,10 @@
 
       <!-- outside the form, so clicking it never submits it -->
       <button type="button" id="publishBtn">Publish profile</button>
+            <!-- far from Save, in red, so it's never clicked by accident -->
+      <div class="danger-zone">
+        <a href="/account/delete" class="danger-link">Delete account</a>
+      </div>
     </main>
         <script src="/static/theme.js"></script>
   </body>

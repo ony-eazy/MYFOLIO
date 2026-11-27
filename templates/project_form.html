@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Add Project</title>
+    <title>{{ "Edit project" if editing else "Add project" }}</title>
         <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='favicon.svg') }}">
         <!-- shared palette/topbar + the profile form styles (same look) -->
     <link rel="stylesheet" href="{{ url_for('static', filename='dashboard_style.css') }}">
@@ -14,7 +14,7 @@
     {% include '_topbar.html' %}
 
     <main class="profile-card"> 
-      <h1>Add Project</h1>
+      <h1>{{ "Edit project" if editing else "Add project" }}</h1>
 
       {% with messages = get_flashed_messages(with_categories=true) %}
         {% for category, msg in messages %}
@@ -22,13 +22,18 @@
         {% endfor %}
       {% endwith %}
 
-      <form action="/projects/new" method="post">
+            <form action="{{ '/projects/' ~ editing.Project_id ~ '/edit' if editing else '/projects/new' }}" method="post">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
         <!-- the basics -->
         <label for="title">Title</label>
         <input type="text" name="title" id="title" maxlength="150" required value="{{ form.get('title','' )}}" placeholder="e.g Myfolio" />
 
         <label for="github_url">GitHub repository <span class="optional">(optional)</span></label>
+        <div class="github-row">
         <input type="text" inputmode="url" name="github_url" id="github_url" maxlength="255" value="{{ form.get('github_url','' )}}" placeholder="github.com/your-username/your-repo" />
+        <button type="button" id="detectBtn">Detect</button>
+        </div>
+        <p id="detectStatus" class="detect-status" aria-live="polite"></p>
 
          <label for="project_link">Live site <span class="optional">(optional)</span></label>
         <input type="text" inputmode="url" id="project_link" name="project_link" maxlength="255"
@@ -72,12 +77,26 @@
         <textarea id="results" name="results" rows="3"
                   placeholder="What was the outcome? Any numbers or feedback?">{{ form.get('results', '') }}</textarea>
 
-        <button type="submit" id="saveBtn">Save project</button>
+        <button type="submit" id="saveBtn">{{ "Save changes" if editing else "Save project" }}</button>
+        {% if editing %}
+          <a href="/projects" class="cancel-link">Cancel</a>
+        {% endif %}
 
       </form>
+            {% if editing %}
+        <!-- separate form: forms can't be nested inside each other -->
+        <form action="/projects/{{ editing.Project_id }}/delete" method="post"
+              onsubmit="return confirm('Delete this project? This cannot be undone.');">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+          <button type="submit" id="deleteBtn">Delete project</button>
+        </form>
+      {% endif %}
+
     </main>
 
         <script src="/static/theme.js"></script>
+        <script src="{{ url_for('static', filename='github_detect.js') }}"></script>
+
 
   </body>
 </html>

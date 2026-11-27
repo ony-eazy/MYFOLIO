@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Testimonials</title>
+  <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='favicon.svg') }}">
+
+<!-- dashboard_style.css = shared palette/topbar, testimonials_style.css = this page -->
+
+<link rel="stylesheet" href="{{ url_for('static', filename='dashboard_style.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='testimonials_style.css') }}">
+</head>
+<body>
+  {% include '_topbar.html' %}
+
+  <main class="testimonials-page">
+    <h1>Testimonials</h1>
+
+    {% with messages = get_flashed_messages(with_categories=true)%}
+    {% for category, msg in messages %}
+      <p class="flash {{category}}">{{ msg }}</p>
+    {% endfor %}
+    {% endwith %}
+
+    <!-- 1. make a new link -->
+    <section class="panel">
+      <h2>Request a testimonial</h2>
+      <p class="hint">Create a private link and send it to a client, teammate or teacher.
+        Each link works once and expires after {{ days }} days.</p>
+      <form action="/testimonials/request" method="post" class="request-form">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <input type="text" name="label" maxlength="100" aria-label="Who is it for?"
+               placeholder="Who is it for? e.g. Sarah from Acme">
+        <select name="project_id" aria-label="What is it about?">
+          <option value="">General (about me)</option>
+          {% for p in my_projects %}
+            <option value="{{ p.Project_id }}">{{ p.Title }}</option>
+          {% endfor %}
+        </select>
+        <button type="submit" id="requestBtn">Create link</button>
+      </form>
+    </section>
+
+    <!-- 2. links nobody has used yet -->
+    <section class="panel">
+      <h2>Open links</h2>
+      {% for r in open_requests %}
+        <div class="request-row">
+          <div class="request-info">
+            <strong>{{ r.Label or "Unlabelled link" }}</strong>
+            <span class="muted">
+              About: {{ r.Project_title or "General" }} · Created {{ r.Created_at.strftime('%d %b %Y') }}
+            </span>
+          </div>
+          <input type="text" class="link-box" value="{{ request.host_url }}t/{{ r.Token }}"
+                 readonly aria-label="Testimonial link">
+          <button type="button" class="copy-btn">Copy</button>
+          <form action="/testimonials/request/{{ r.Token }}/cancel" method="post"
+                onsubmit="return confirm('Cancel this link? It will stop working.');">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <button type="submit" class="cancel-btn">Cancel</button>
+          </form>
+        </div>
+      {% else %}
+        <p class="muted">No open links. Create one above.</p>
+      {% endfor %}
+    </section>
+
+    <!-- 3. what people wrote -->
+    <section class="panel">
+      <h2>Received</h2>
+      {% for t in received %}
+        <article class="testimonial status-{{ t.Status }}">
+          <div class="testimonial-tags">
+            <span class="status-badge">{{ t.Status|capitalize }}</span>
+            <span class="about-tag">{{ t.Project_title or "General" }}</span>
+            {% if t.Verified_via %}
+              <span class="verified-tag">✔ Verified via {{ provider_labels.get(t.Verified_via, t.Verified_via) }}</span>
+            {% else %}
+              <span class="unverified-tag">Not verified</span>
+            {% endif %}
+          </div>
+          <blockquote>{{ t.Content }}</blockquote>
+          <div class="author-row">
+            {% if t.Image_url %}
+              <img src="{{ t.Image_url }}" alt="" class="author-avatar">
+            {% endif %}
+            <p class="author">— {{ t.Author_name }}{% if t.Author_role %}, {{ t.Author_role }}{% endif %}
+              {% if t.Relationship %}<span class="muted">({{ t.Relationship }})</span>{% endif %}
+              {% if t.Verified_handle %}
+                ·
+                {% if t.Verified_url and t.Verified_url.startswith('https://') %}
+                  <a href="{{ t.Verified_url }}" target="_blank" rel="noopener noreferrer nofollow">@{{ t.Verified_handle }} ↗</a>
+                {% else %}
+                  @{{ t.Verified_handle }}
+                {% endif %}
+              {% endif %}
+            </p>
+          </div>
+                      <!-- buttons depend on the current status -->
+          <div class="testimonial-actions">
+            {% if t.Status != 'approved' %}
+              <form action="/testimonials/{{ t.Proof_id }}/status" method="post">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <input type="hidden" name="status" value="approved">
+                <button type="submit" class="approve-btn">Approve</button>
+              </form>
+            {% endif %}
+
+            {% if t.Status != 'hidden' %}
+              <form action="/testimonials/{{ t.Proof_id }}/status" method="post">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <input type="hidden" name="status" value="hidden">
+                <button type="submit" class="hide-btn">Hide</button>
+              </form>
+            {% endif %}
+
+            {% if t.Status == 'hidden' %}
+              <form action="/testimonials/{{ t.Proof_id }}/delete" method="post"
+                    onsubmit="return confirm('Delete this testimonial for good? This cannot be undone.');">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <button type="submit" class="delete-btn">Delete</button>
+              </form>
+            {% endif %}
+          </div>
+        </article>
+      {% else %}
+        <p class="muted">Nothing yet. Testimonials show up here once someone uses your link.</p>
+      {% endfor %}
+    </section>
+  </main>
+
+  <script src="{{ url_for('static', filename='testimonials.js') }}"></script>
+  <script src="/static/theme.js"></script>
+
+</body>
+</html>

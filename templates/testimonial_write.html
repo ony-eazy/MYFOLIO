@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Write a testimonial</title>
+  <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='favicon.svg') }}">
+  <!-- same palette + same form look as the profile page -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='dashboard_style.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='profile_style.css') }}">
+</head>
+<body>
+    <!-- same bar as logged-in pages, but no nav links: visitors aren't logged in -->
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="/home">
+        <svg class="logo-mark" viewBox="0 0 48 48" aria-label="Myfolio logo">
+          <polygon points="24,8 40,26 8,26" fill="#E0A86B"></polygon>
+          <polygon points="24,44 40,26 8,26" fill="#E0A86B" opacity="0.3"></polygon>
+        </svg>
+        <span>Myfolio</span>
+      </a>
+      <button id="themeToggler" type="button">🌞</button>
+    </div>
+  </header>
+
+  <main class="profile-card">
+    {% if state == "invalid" %}
+      <h1>Link not available</h1>
+      <p class="write-intro">This link has expired or has already been used.
+        If you were asked for a testimonial, ask for a new link.</p>
+
+    {% elif state == "thanks" %}
+      <h1>Thank you! 🎉</h1>
+      <p class="write-intro">Your testimonial was sent{% if owner_name %} to {{ owner_name }}{% endif %}.
+        It will appear on their portfolio once they approve it.</p>
+
+    {% elif state == "own_link" %}
+      <h1>This is your own link</h1>
+      <p class="write-intro">Send it to someone else. You can't write a testimonial for yourself 😉</p>
+
+    {% elif state == "signin_expired" %}
+      <h1>Sign-in expired</h1>
+      <p class="write-intro">Something interrupted the sign-in. Please open the testimonial
+        link you were sent and try verifying again.</p>
+
+    {% else %}
+      <h1>Write a testimonial</h1>
+      <p class="write-intro">
+        for <strong>{{ owner_name }}</strong>
+        {% if req.Project_title %}, about the project <strong>{{ req.Project_title }}</strong>{% endif %}
+      </p>
+
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% for category, msg in messages %}
+          <p class="flash {{ category }}">{{ msg }}</p>
+        {% endfor %}
+      {% endwith %}
+
+      <!-- verify who you are — sits ABOVE the form because it leaves the page -->
+      {% if verified %}
+        <div class="verified-box">
+          {% if verified.avatar %}
+            <img src="{{ verified.avatar }}" alt="" class="verified-avatar">
+          {% endif %}
+          <div class="verified-text">
+            <strong>✔ Verified as @{{ verified.handle }}</strong>
+            <span>via {{ verified_label }}</span>
+          </div>
+          <a href="/t/{{ req.Token }}/unverify" class="unverify-link">Not you?</a>
+        </div>
+      {% elif providers %}
+        <div class="verify-box">
+          <p class="verify-title">Verify who you are <span class="optional">(optional)</span></p>
+          <p class="hint-small">Do this first — it leaves this page. Verified testimonials get a ✔ badge.
+            We only see your public profile.</p>
+          <div class="verify-buttons">
+            {% for key, label in providers %}
+              <a href="/t/{{ req.Token }}/verify/{{ key }}" class="verify-btn">{{ label }}</a>
+            {% endfor %}
+          </div>
+        </div>
+      {% endif %}
+
+      <form action="/t/{{ req.Token }}" method="post">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+        <label for="author_name">Your name</label>
+        {% if verified %}
+          <!-- disabled boxes aren't sent — the server uses the verified name instead -->
+          <input type="text" id="author_name" value="{{ verified.name }}" disabled>
+        {% else %}
+          <input type="text" id="author_name" name="author_name" maxlength="100" required
+                 value="{{ form.get('author_name', '') }}" placeholder="e.g. Sarah Johnson">
+        {% endif %}
+
+        <label for="author_role">Your role <span class="optional">(optional)</span></label>
+        <input type="text" id="author_role" name="author_role" maxlength="150"
+               value="{{ form.get('author_role', '') }}" placeholder="e.g. Product Manager at Acme">
+
+        <label for="relationship">How do you know {{ owner_name }}?</label>
+        <select id="relationship" name="relationship" required>
+          <option value="">Choose one…</option>
+          {% for r in relationships %}
+            <option value="{{ r }}" {{ 'selected' if form.get('relationship') == r }}>{{ r }}</option>
+          {% endfor %}
+        </select>
+
+        <label for="content">Your testimonial</label>
+        <textarea id="content" name="content" rows="6" minlength="20" maxlength="1000" required
+                  placeholder="What was it like working with them? What did they do well?">{{ form.get('content', '') }}</textarea>
+
+        <button type="submit" id="saveBtn">Send testimonial</button>
+        <p class="hint-small">Your name, role and words may be shown publicly on their portfolio.
+          {%- if verified and verified.url %} Your {{ verified_label }} profile will be linked too.{% endif %}</p>
+      </form>
+    {% endif %}
+  </main>
+
+  <script src="/static/theme.js"></script>
+</body>
+</html>
